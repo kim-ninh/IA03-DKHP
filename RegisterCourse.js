@@ -33,8 +33,13 @@ function addRowHandlers(student) {
 
 function registerCourses() {
     var student = getStudent();
-    students.push(student);
-    addStudentToTable(student);
+
+    if (student !== null) {
+        students.push(student);
+        addStudentToTable(student);
+    } else {
+        alert("Hãy nhập đủ MSSV, Họ tên và chọn ít nhất 1 môn học");
+    }
 }
 
 function addStudentToTable(student) {
@@ -72,6 +77,9 @@ function getStudent() {
     var date = new Date(yyyy, mm, dd);
     var selectedCourses = getSelectedCourses();
     var student = new Student(ID, fullName, sex, date, selectedCourses);
+
+    if (ID === "" || fullName === "" || selectedCourses.length === 0)
+        return null;
     return student;
 }
 
