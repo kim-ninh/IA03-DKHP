@@ -16,19 +16,9 @@ function Student(ID, FullName, Sex, DoB, Courses) {
 }
 
 function addRowHandlers(student) {
-    var studentTable = document.getElementById("studentTable");
-    var rows = studentTable.getElementsByTagName("tr");
-
-    var lastRow = studentTable.rows[rows.length - 1];
-    var createClickHandler = function (row) {
-        return function () {
-            var firstCell = row.getElementsByTagName("td")[0];
-            var id = firstCell.innerText;
-            // alert("mssv: " + id);
-            alert(student.toString());
-        }
-    }
-    lastRow.onclick = createClickHandler(lastRow);
+    $('#studentTable tr:last').on('click', student, function (event){
+        alert(event.data.toString());
+    })
 }
 
 function registerCourses() {
@@ -43,27 +33,14 @@ function registerCourses() {
 }
 
 function addStudentToTable(student) {
-    var table = document.getElementById("studentTable");
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
 
-    td.innerText = student.ID;
-    tr.appendChild(td);
-
-    td = document.createElement("td");
-    td.innerText = student.FullName;
-    tr.appendChild(td);
-
-    td = document.createElement("td");
-    td.innerText = student.Sex;
-    tr.appendChild(td);
-
-    td = document.createElement("td");
-    td.innerText = toString(student.DoB);
-    tr.appendChild(td);
-
-    table.appendChild(tr);
-
+    var tr = $('<tr></tr>');
+    $('#studentTable').append(tr);
+    
+    $('#studentTable tr:last').append($('<td></td>').text(student.ID));
+    $('#studentTable tr:last').append($('<td></td>').text(student.FullName));
+    $('#studentTable tr:last').append($('<td></td>').text(student.Sex));
+    $('#studentTable tr:last').append($('<td></td>').text(toString(student.DoB)));
     addRowHandlers(student);
 }
 
@@ -96,7 +73,7 @@ function getSelectedCourses() {
 
 function toString(date) {
     var dd = date.getDate();
-    var mm = date.getMonth() + 1;
+    var mm = date.getMonth();
     var yyyy = date.getFullYear();
     return dd + "/" + mm + "/" + yyyy;
 }
