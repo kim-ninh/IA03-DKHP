@@ -1,69 +1,57 @@
-var courses = ["Chuyên đề Java",
-    "CSDL Web",
-    "Trí tuệ nhân tạo",
-    "Lập trình hướng đối tượng",
-    "Công nghệ phần mềm",
-    "Cấu trúc dữ liệu",
-    "Lập trình Windows"
+var courses = ['Chuyên đề Java',
+    'CSDL Web',
+    'Trí tuệ nhân tạo',
+    'Lập trình hướng đối tượng',
+    'Công nghệ phần mềm',
+    'Cấu trúc dữ liệu',
+    'Lập trình Windows'
 ];
 
 function setCourse(courses) {
-    var availableCourse = document.getElementById("courses");
-
-    for (i = 0; i < courses.length; i++) {
-        var option = document.createElement("option");
-        option.text = courses[i];
-        option.value = courses[i];
-        availableCourse.appendChild(option);
-    }
-}
-
-function moveAllSelection(src, dest) {
-    var length = src.children.length;
-    for (; length > 0; length--) {
-        var option = src.childNodes[0];
-        dest.appendChild(option);
-    }
-}
-
-function moveSelectedSelection(src, dest) {
-    for (let i = 0; i < src.selectedOptions.length; i++) {
-        var option = src.selectedOptions[i];
-        var newOption = document.createElement("option");
-        newOption.value = option.value;
-        newOption.text = option.text;
-        dest.appendChild(newOption);
-    }
-
-    var n = src.selectedOptions.length;
-    for (; n > 0; n--) {
-        var option = src.selectedOptions[0];
-        option.parentNode.removeChild(option);
-    }
-}
-
-function moveRightAll() {
-    var availableCourse = document.getElementById("courses");
-    var selectedCourses = document.getElementById("selectedCourses");
-    moveAllSelection(availableCourse, selectedCourses);
-}
-
-function moveRightSelected() {
-    var availableCourse = document.getElementById("courses");
-    var selectedCourses = document.getElementById("selectedCourses");
-    moveSelectedSelection(availableCourse, selectedCourses);
-}
-
-function moveLeftAll() {
-    var availableCourse = document.getElementById("courses");
-    var selectedCourses = document.getElementById("selectedCourses");
-    moveAllSelection(selectedCourses, availableCourse);
-}
-
-function moveLeftSelected() {
-    var availableCourse = document.getElementById("courses");
-    var selectedCourses = document.getElementById("selectedCourses");
-    moveSelectedSelection(selectedCourses, availableCourse);
+    courses.forEach(course => {
+        let option = $('<option></option>').text(course).val(course);
+        $('#courses').append(option);
+    });
 }
 
 setCourse(courses);
+
+$('#btnMoveRightAll').click(function () {
+    $('#courses option').each(function (index, element) {
+        // element == this
+        var courseName = $(element).val();
+        var option = $('<option></option>').text(courseName).val(courseName);
+        $('#selectedCourse').append(option);
+    });
+    $('#courses').empty();
+});
+
+$('#btnMoveRightSelected').click(function () {
+    $('#courses option').filter(':selected').each(function (index, element) {
+        // element == this
+        var courseName = $(element).val();
+        var option = $('<option></option>').text(courseName).val(courseName);
+        $('#selectedCourse').append(option);
+        $(element).remove();
+    });
+});
+
+$('#btnMoveLeftAll').click(function () {
+    $('#selectedCourse option').each(function (index, element) {
+        // element == this
+        var courseName = $(element).val();
+        var option = $('<option></option>').text(courseName).val(courseName);
+        $('#courses').append(option);
+    });
+    $('#selectedCourse').empty();
+});
+
+$('#btnMoveLeftSelected').click(function () {
+    $('#selectedCourse option').filter(':selected').each(function (index, element) {
+        // element == this
+        var courseName = $(element).val();
+        var option = $('<option></option>').text(courseName).val(courseName);
+        $('#courses').append(option);
+        $(element).remove();
+    });
+});

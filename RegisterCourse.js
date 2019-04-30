@@ -7,18 +7,18 @@ function Student(ID, FullName, Sex, DoB, Courses) {
     this.DoB = DoB;
     this.Courses = Courses;
     this.toString = function () {
-        return "Mã số SV: " + this.ID + "\n" +
-            "Họ và tên: " + this.FullName + "\n" +
-            "Giới tính: " + this.Sex + "\n" +
-            "Ngày sinh " + toString(this.DoB) + "\n" +
-            "Các môn học: " + this.Courses.toString();
+        return 'Mã số SV: ' + this.ID + '\n' +
+            'Họ và tên: ' + this.FullName + '\n' +
+            'Giới tính: ' + this.Sex + '\n' +
+            'Ngày sinh ' + toString(this.DoB) + '\n' +
+            'Các môn học: ' + this.Courses.toString();
     };
 }
 
 function addRowHandlers(student) {
-    $('#studentTable tr:last').on('click', student, function (event){
+    $('#studentTable tr:last').on('click', student, function (event) {
         alert(event.data.toString());
-    })
+    });
 }
 
 function registerCourses() {
@@ -28,7 +28,7 @@ function registerCourses() {
         students.push(student);
         addStudentToTable(student);
     } else {
-        alert("Hãy nhập đủ MSSV, Họ tên và chọn ít nhất 1 môn học");
+        alert('Hãy nhập đủ MSSV, Họ tên và chọn ít nhất 1 môn học');
     }
 }
 
@@ -36,7 +36,7 @@ function addStudentToTable(student) {
 
     var tr = $('<tr></tr>');
     $('#studentTable').append(tr);
-    
+
     $('#studentTable tr:last').append($('<td></td>').text(student.ID));
     $('#studentTable tr:last').append($('<td></td>').text(student.FullName));
     $('#studentTable tr:last').append($('<td></td>').text(student.Sex));
@@ -45,35 +45,37 @@ function addStudentToTable(student) {
 }
 
 function getStudent() {
-    var ID = mainForm.inputID.value;
-    var fullName = mainForm.fullName.value;
-    var sex = mainForm.sex.value;
-    var dd = parseInt(mainForm.dd.selectedOptions[0].value);
-    var mm = parseInt(mainForm.mm.selectedOptions[0].value);
-    var yyyy = parseInt(mainForm.yyyy.selectedOptions[0].value);
+    var ID = $('#inputID').val();
+    var fullName = $('#fullName').val();
+    var sex = $(':radio:checked').val();
+    var dd = $('#dd option:selected').val();
+    var mm = $('#mm option:selected').val();
+    var yyyy = $('#yyyy option:selected').val();
     var date = new Date(yyyy, mm, dd);
     var selectedCourses = getSelectedCourses();
     var student = new Student(ID, fullName, sex, date, selectedCourses);
 
-    if (ID === "" || fullName === "" || selectedCourses.length === 0)
+    if (ID === '' || fullName === '' || selectedCourses.length === 0)
         return null;
     return student;
 }
 
 function getSelectedCourses() {
     var selectedCourses = [];
-    var selectOptionElement = document.getElementById("selectedCourses");
-
-    for (let i = 0; i < selectOptionElement.children.length; i++) {
-        var optionElement = selectOptionElement.children[i];
-        selectedCourses.push(optionElement.value);
-    }
+    $('#selectedCourse option').each(function (index, element) {
+        // element == this
+        selectedCourses.push($(element).val());
+    });
     return selectedCourses;
 }
 
 function toString(date) {
-    var dd = date.getDate();
-    var mm = date.getMonth();
-    var yyyy = date.getFullYear();
-    return dd + "/" + mm + "/" + yyyy;
+    let dd = date.getDate();
+    let mm = date.getMonth();
+    let yyyy = date.getFullYear();
+    return dd + '/' + mm + '/' + yyyy;
 }
+
+$('#btnRegister').click(() => {
+    registerCourses();
+});
