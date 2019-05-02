@@ -1,20 +1,3 @@
-var courses = ['Chuyên đề Java',
-    'CSDL Web',
-    'Trí tuệ nhân tạo',
-    'Lập trình hướng đối tượng',
-    'Công nghệ phần mềm',
-    'Cấu trúc dữ liệu',
-    'Lập trình Windows'
-];
-
-function setCourse(courses) {
-    courses.forEach(course => {
-        let option = $('<option></option>').text(course).val(course);
-        $('#courses').append(option);
-    });
-}
-
-setCourse(courses);
 
 $('#btnMoveRightAll').click(function () {
     $('#courses option').each(function (index, element) {
